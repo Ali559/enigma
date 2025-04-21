@@ -80,16 +80,14 @@ Enigma uses an SQLite database with the following key tables:
 
 ```
 enigma/
-├── src/
-│   ├── components/         # Reusable UI components
-│   ├── screens/            # App screens
-│   ├── navigation/         # React Navigation setup
-│   ├── database/           # Database operations
-│   ├── crypto/             # Encryption utilities
-│   ├── hooks/              # Custom React hooks
-│   └── utils/              # Helper functions
-├── assets/                 # Images and static files
-└── docs/                   # Project documentation
+├── app/ 
+    ├── (tabs)/
+├── components/         # Reusable UI components
+├── database/           # Database operations
+├── hooks/              # Custom React hooks
+└── utils/              # Helper functions
+├── assets/             # Images and static files
+└── docs/               # Project documentation
 ```
 
 ## Development Setup
