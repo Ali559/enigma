@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   ListRenderItemInfo,
 } from "react-native";
 import { Link } from "expo-router";
+import { MotiView } from "moti";
 
 const { width, height } = Dimensions.get("window");
 
@@ -44,6 +45,15 @@ const slides: Slide[] = [
 ];
 
 export default function OnboardingScreen(): JSX.Element {
+  const [currentIndex, setCurrentIndex] = React.useState<number>(0);
+
+  const onViewRef = useRef(({ viewableItems }: any) => {
+    if (viewableItems.length > 0) {
+      setCurrentIndex(viewableItems[0].index);
+    }
+  });
+  const viewConfigRef = useRef({ viewAreaCoveragePercentThreshold: 50 });
+
   const renderItem = ({ item }: ListRenderItemInfo<Slide>): JSX.Element => (
     <View style={styles.slide}>
       <Image source={item.image} style={styles.image} resizeMode="contain" />
@@ -51,8 +61,6 @@ export default function OnboardingScreen(): JSX.Element {
       <Text style={styles.description}>{item.description}</Text>
     </View>
   );
-  console.log(renderItem);
-  renderItem;
   return (
     <View style={styles.container}>
       <FlatList
@@ -62,10 +70,16 @@ export default function OnboardingScreen(): JSX.Element {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        onViewableItemsChanged={onViewRef.current}
+        viewabilityConfig={viewConfigRef.current}
       />
-      <Link href="/(tabs)" style={styles.button}>
-        <Text style={styles.buttonText}>Get Started</Text>
-      </Link>
+      {currentIndex === slides.length - 1 && (
+        <MotiView from={{ opacity: 0 }} animate={{ opacity: 1 }} delay={100}>
+          <Link href="/(tabs)" style={styles.button}>
+            <Text style={styles.buttonText}>Get Started</Text>
+          </Link>
+        </MotiView>
+      )}
     </View>
   );
 }
